@@ -1,26 +1,229 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --pink-light: #ffe4f0;
+  --pink: #ff6b9d;
+  --pink-dark: #e84393;
+  --red: #e74c3c;
+  --white: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* ===== PROPOSAL SCREEN ===== */
+.proposal-container {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffeef8 0%, #ffd6e7 30%, #ffb6d3 60%, #ff9cc2 100%);
+  overflow: hidden;
+}
+
+.proposal-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.proposal-video {
+  width: min(75vw, 340px);
+  max-height: 78vh;
+  border-radius: 20px;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(232, 67, 147, 0.3);
+}
+
+.buttons-area {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  min-height: 80px;
+}
+
+.btn-yes {
+  padding: 0.9rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: white;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--pink-dark) 100%);
+  border: none;
+  transform-origin: center bottom;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(232, 67, 147, 0.4);
+  white-space: nowrap;
+}
+
+.btn-yes:hover {
+  box-shadow: 0 6px 30px rgba(232, 67, 147, 0.6);
+  filter: brightness(1.08);
+}
+
+.btn-yes:active {
+  transform: scale(0.97) !important;
+}
+
+.btn-no {
+  padding: 0.9rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #888;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.btn-no:hover {
+  border-color: #bbb;
+  color: #666;
+}
+
+/* ===== CELEBRATION SCREEN ===== */
+.celebration-container {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff0f6 0%, #ffd6e7 30%, #ffc2d9 60%, #ffaacb 100%);
+  overflow: hidden;
+}
+
+.celebration-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.celebration-heart {
+  font-size: 5rem;
+  animation: heartbeat 1s ease-in-out infinite;
+}
+
+.celebration-title {
+  font-family: var(--font-dancing), "Dancing Script", cursive;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 700;
+  color: var(--pink-dark);
+  text-shadow: 0 2px 10px rgba(232, 67, 147, 0.25);
+}
+
+.celebration-text {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--pink-dark);
+  font-weight: 500;
+}
+
+.celebration-subtext {
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  color: #c0568a;
+  max-width: 340px;
+  line-height: 1.6;
+}
+
+.celebration-emoji-row {
+  font-size: 1.8rem;
+  letter-spacing: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.celebration-date {
+  font-family: var(--font-dancing), "Dancing Script", cursive;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--pink);
+  margin-top: 0.5rem;
+  font-weight: 700;
+}
+
+/* ===== FLOATING HEARTS ===== */
+.floating-hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -10%;
+  animation: floatUp linear infinite;
+  opacity: 0.7;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
