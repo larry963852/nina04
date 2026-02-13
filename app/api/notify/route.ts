@@ -4,7 +4,7 @@ export async function POST() {
   try {
     await fetch("https://ntfy.sh/nina04-valentine-2026", {
       method: "POST",
-      body: "Brenn contestó",
+      body: "Brenny dijo que sí xd",
       headers: { "Content-Type": "text/plain" },
     });
     return NextResponse.json({ ok: true });
