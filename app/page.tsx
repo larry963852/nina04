@@ -151,6 +151,12 @@ export default function Home() {
   const handleYes = useCallback(() => {
     if (justTappedNo.current) return;
     setAccepted(true);
+    // Send push notification via ntfy.sh
+    fetch("https://ntfy.sh/nina04-valentine-2026", {
+      method: "POST",
+      body: "She said YES! 💖🎉",
+      headers: { Title: "Valentine Response 💕" },
+    }).catch(() => {});
   }, []);
 
   // Reset no button position if window resizes
