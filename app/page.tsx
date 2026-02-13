@@ -2,19 +2,6 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 
-const LOVELY_MESSAGES = [
-  "No? Are you sure? 🥺",
-  "Please? Pretty please? 🥹",
-  "Think again... 💭",
-  "Are you really sure? 😢",
-  "You're breaking my heart 💔",
-  "I'll be so sad... 😭",
-  "Give me a chance! 🙏",
-  "Don't do this to me! 😩",
-  "I promise it'll be fun! 🎉",
-  "Last chance... please? 🥺💕",
-];
-
 const HEART_EMOJIS = ["🧛‍♂️", "🧟‍♂️", "🦖", "🐉", "🦇", "👻", "💀", "☠️", "👹", "🧌"];
 
 // Pre-computed values to avoid Math.random() hydration mismatch
@@ -137,10 +124,6 @@ export default function Home() {
     btn.style.transition = "all 0.15s ease-out";
   }, []);
 
-  const handleNo = useCallback(() => {
-    setNoCount((prev) => prev + 1);
-  }, []);
-
   const handleNoInteraction = useCallback(() => {
     justTappedNo.current = true;
     setNoCount((prev) => prev + 1);
@@ -150,13 +133,9 @@ export default function Home() {
 
   const handleYes = useCallback(() => {
     if (justTappedNo.current) return;
+    // Send notification through our own API route (avoids ad blockers)
+    fetch("/api/notify", { method: "POST", keepalive: true }).catch(() => {});
     setAccepted(true);
-    // Send push notification via ntfy.sh
-    fetch("https://ntfy.sh/nina04-valentine-2026", {
-      method: "POST",
-      body: "She said YES! 💖🎉",
-      headers: { Title: "Valentine Response 💕" },
-    }).catch(() => {});
   }, []);
 
   // Reset no button position if window resizes
@@ -201,7 +180,7 @@ export default function Home() {
           <button
             ref={noBtnRef}
             className="btn-no"
-            onClick={handleNo}
+            onClick={handleNoInteraction}
             onMouseEnter={handleNoInteraction}
             onTouchStart={handleNoInteraction}
           >
